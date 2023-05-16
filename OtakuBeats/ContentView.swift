@@ -48,6 +48,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var searchText = ""
+    @State private var selectedFilter = "poop"
     
     let anime: [Anime] = Anime.mockAnime
     let songs: [Song] = Song.mockSong
@@ -82,6 +83,35 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Otaku Beats")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button("Filter") {
+//                        print("pressed")
+//                    }
+//                    Menu ("filter"){
+//                        Button ("Date") {
+//                            print("Pressed")
+//                        }
+//
+//                        Button ("Length") {
+//                            print("Pressed")
+//                        }
+//
+//                        Button ("Genre") {
+//                            print("Pressed")
+//                        }
+//
+//                    }
+                    
+                    Picker(selection: .constant(1),
+                        label: Text("Filter"),
+                           content: {
+                        Text("poop")
+                        Text("pee")
+                    })
+                    .pickerStyle(MenuPickerStyle())
+                }
+            }
         }
         .padding()
     }
