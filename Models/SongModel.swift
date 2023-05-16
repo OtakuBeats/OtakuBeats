@@ -30,4 +30,22 @@ struct Song: Identifiable {
     
 }
 
+extension Anime {
+    static var mockAnime: [Anime] = [
+        Anime(title: "Cowboy Bebop", titleJap: "Cowbop Bebop", posterImgUrl: " "),
+        Anime(title: "Naruto", titleJap: "Naruto", posterImgUrl: " ")
+    ]
+}
+
+extension Song {
+    static var mockSong: [Song] = [
+        Song(animeId: 1, genre: "Jazz", length: Int(3.31), title: "Tank!", type: " ", youtubeUrl: "https://www.youtube.com/watch?v=UFFa0QoHWvE")
+    ]
+}
+
+
+//user struct to be implemented later into the project
+
+
+
 
