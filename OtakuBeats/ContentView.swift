@@ -7,48 +7,13 @@
 
 import SwiftUI
 
-//struct ContentView: View {
-//    @State private var searchText = ""
-//
-//    let anime: [Anime] = Anime.mockAnime
-//    let songs: [Song] = Song.mockSong
-//
-//    var filteredAnime: [Anime] {
-//        anime.filter { $0.title.localizedCaseInsensitiveContains(searchText) && $0.title.lowercased().hasPrefix(searchText.lowercased()) }
-//    }
-//
-//    var filteredSongs: [Song] {
-//        songs.filter { $0.title.localizedCaseInsensitiveContains(searchText) && $0.title.lowercased().hasPrefix(searchText.lowercased()) }
-//    }
-//
-//    var body: some View {
-//        NavigationView {
-//            VStack {
-//                SearchBar(searchText: $searchText)
-//
-//                List {
-//                    Section(header: Text("Anime")) {
-//                        ForEach(filteredAnime) { anime in
-//                            Text(anime.title)
-//                        }
-//                    }
-//
-//                    Section(header: Text("Songs")) {
-//                        ForEach(filteredSongs) { song in
-//                            Text(song.title)
-//                        }
-//                    }
-//                }
-//            }
-//            .navigationTitle("Otaku Beats")
-//        }
-//        .padding()
-//    }
-//}
+
 
 struct ContentView: View {
     @State private var searchText = ""
-    @State private var selectedFilter = "poop"
+    @State var genres = ["Rock", "Jazz", "Pop"]
+    @State var filterCategories = ["Length", "Type", "Date Uploaded", "Clear"]
+    @State private var selectedFilter = " "
     
     let anime: [Anime] = Anime.mockAnime
     let songs: [Song] = Song.mockSong
@@ -65,63 +30,93 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 SearchBar(searchText: $searchText)
-                
-                if searchText.isEmpty {
-                    List(songs) { song in
-                        Text(song.title)
-                    }
+                if selectedFilter == " " {
+                    defaultSearch
                 } else {
-                    List {
-                        ForEach(filteredAnime) { anime in
-                            Text(anime.title)
-                        }
-                        
-                        ForEach(filteredSongs) { song in
-                            Text(song.title)
-                        }
-                    }
+                    //filtered search
                 }
             }
             .navigationTitle("Otaku Beats")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-//                    Button("Filter") {
-//                        print("pressed")
-//                    }
-//                    Menu ("filter"){
-//                        Button ("Date") {
-//                            print("Pressed")
-//                        }
-//
-//                        Button ("Length") {
-//                            print("Pressed")
-//                        }
-//
-//                        Button ("Genre") {
-//                            print("Pressed")
-//                        }
-//
-//                    }
-                    
-                    Picker(selection: .constant(1),
-                        label: Text("Filter"),
-                           content: {
-                        Text("poop")
-                        Text("pee")
-                    })
-                    .pickerStyle(MenuPickerStyle())
+                    Menu {
+                        Menu {
+                            Picker("Filter", selection: $selectedFilter)
+                                {
+                                    ForEach(genres, id: \.self) {
+                                        Text($0)
+                                    }
+                                }
+                                .pickerStyle(.automatic)
+                        } label: {
+                            Text("Genre")
+                        }
+                    Picker("Filter", selection: $selectedFilter)
+                        {
+                            ForEach(filterCategories, id: \.self) {
+                                Text($0)
+                            }
+                        }
+                        .pickerStyle(.automatic)
+                } label: {
+                    Text("Filter")
                 }
             }
         }
+    }
         .padding()
     }
+    
+    
+    var defaultSearch: some View {
+        if searchText.isEmpty {
+            return AnyView(
+            List(songs) { song in
+                Text(song.title)
+            }
+            )
+        } else {
+            return AnyView (
+            List {
+                ForEach(filteredAnime) { anime in
+                    Text(anime.title)
+                }
+                
+                ForEach(filteredSongs) { song in
+                    Text(song.title)
+                }
+            })
+        }
+    }
+    
+    
+    
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            
     }
 }
 

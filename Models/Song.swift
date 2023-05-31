@@ -33,16 +33,19 @@ struct Song: Identifiable {
 extension Anime {
     static var mockAnime: [Anime] = [
         Anime(title: "Cowboy Bebop", titleJap: "Cowbop Bebop", posterImgUrl: " "),
-        Anime(title: "Naruto", titleJap: "Naruto", posterImgUrl: " ")
+        Anime(title: "Naruto", titleJap: "Naruto", posterImgUrl: " "),
+        Anime(title: "Bleach", titleJap: "Bleach", posterImgUrl: " ")
     ]
 }
 
 extension Song {
     static var mockSong: [Song] = [
-        Song(animeId: 1, genre: "Jazz", length: Int(3.31), title: "Tank!", type: " ", youtubeUrl: "https://www.youtube.com/watch?v=UFFa0QoHWvE")
+        Song(animeId: 1, genre: "Jazz", length: Int(3.31), title: "Tank!", type: " ", youtubeUrl: "https://www.youtube.com/watch?v=UFFa0QoHWvE"),
+        Song(animeId: 2, genre: "Rock", length: Int(2.25), title: "Blue Bird", type: " ", youtubeUrl: " "),
+        Song(animeId: 3, genre: "Pop", length: Int(1.30), title: "Asterisk", type: " ", youtubeUrl: " ")
     ]
 }
-
+ 
 
 //user struct to be implemented later into the project
 
