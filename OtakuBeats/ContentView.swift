@@ -34,7 +34,7 @@ struct ContentView: View {
                     defaultSearch
                 } else {
                     //filtered search
-                }
+                    genreSearch }
             }
             .navigationTitle("Otaku Beats")
             .toolbar {
@@ -48,9 +48,10 @@ struct ContentView: View {
                                     }
                                 }
                                 .pickerStyle(.automatic)
-                        } label: {
-                            Text("Genre")
-                        }
+                             } label: {
+                                 Text("Genre")
+                             }
+                        
                     Picker("Filter", selection: $selectedFilter)
                         {
                             ForEach(filterCategories, id: \.self) {
@@ -87,6 +88,36 @@ struct ContentView: View {
                 }
             })
         }
+    }
+    
+    
+    var genreSearch: some View {
+        return AnyView (
+            List {
+                switch selectedFilter {
+                case "Rock": ForEach(filteredSongs) { song in
+                    if selectedFilter == "Rock" && song.genre == "Rock" {
+                        Text(song.title)
+                    }
+                }
+                    
+                case "Jazz": ForEach(filteredSongs) { song in
+                    if selectedFilter == "Jazz" && song.genre == "Jazz" {
+                        Text(song.title)
+                    }
+                }
+                
+                case "Pop": ForEach(filteredSongs) { song in
+                    if selectedFilter == "Pop" && song.genre == "Pop" {
+                        Text(song.title)
+                    }
+                }
+                    
+                case "Clear": defaultSearch
+                    
+                default: Text("error")
+                    }
+            })
     }
     
     
