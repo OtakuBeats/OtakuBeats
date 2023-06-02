@@ -52,6 +52,8 @@ struct ContentView: View {
                                  Text("Genre")
                              }
                         
+                        
+                        
                     Picker("Filter", selection: $selectedFilter)
                         {
                             ForEach(filterCategories, id: \.self) {
@@ -59,6 +61,12 @@ struct ContentView: View {
                             }
                         }
                         .pickerStyle(.automatic)
+                        .onChange(of: selectedFilter) { value in
+                            if value == "Clear" {
+                                selectedFilter = " "
+                            }
+                            
+                        }
                 } label: {
                     Text("Filter")
                 }
@@ -112,8 +120,6 @@ struct ContentView: View {
                         Text(song.title)
                     }
                 }
-                    
-                case "Clear": defaultSearch
                     
                 default: Text("error")
                     }
