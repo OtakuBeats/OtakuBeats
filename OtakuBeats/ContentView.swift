@@ -11,9 +11,10 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var searchText = ""
-    @State var genres = ["Rock", "Jazz", "Pop"]
+//    @State var genres = ["Rock", "Jazz", "Pop"]
     @State var filterCategories = ["Length", "Type", "Date Uploaded", "Clear"]
-    @State private var selectedFilter = false
+    @State private var selectedFilter = " "
+    @State var toggleOn = false
     @State var sheetShowing = false
     
     let anime: [Anime] = Anime.mockAnime
@@ -27,12 +28,18 @@ struct ContentView: View {
         songs.filter { $0.title.localizedCaseInsensitiveContains(searchText) && $0.title.lowercased().hasPrefix(searchText.lowercased()) }
     }
     
+    enum genres {
+        case Rock
+        case Jazz
+        case Pop
+    }
+    
 
     var body: some View {
         NavigationView {
             VStack {
                 SearchBar(searchText: $searchText)
-                if selectedFilter == false {
+                if selectedFilter == " " {
                     defaultSearch
                 } else {
                     //filtered search
@@ -49,7 +56,15 @@ struct ContentView: View {
                     .sheet(isPresented: $sheetShowing) {
                         VStack {
                             ForEach(genres, id: \.self) {genre in
-                                Toggle (genre, isOn: $selectedFilter)
+                                Toggle (isOn: Binding(
+                                    get: {Text(genre.rawValue)},
+                                    set: { newToggleState in
+                                        if newToggleState {
+                                        selectedFilter = genre
+                                    } else {
+                                        selectedFilter = " "
+                                    }}
+                                )) {Text(genre.rawValue)}
                             }
                             .padding(.horizontal)
                         }
