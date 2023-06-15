@@ -20,7 +20,7 @@ struct Song: Identifiable {
     let id = UUID()
     
     let animeId: Int
-    let genre: String
+    let genre: ContentView.Genres
     let length: Int
     let title: String
     let type: String
@@ -40,9 +40,9 @@ extension Anime {
 
 extension Song {
     static var mockSong: [Song] = [
-        Song(animeId: 1, genre: "Jazz", length: Int(3.31), title: "Tank!", type: " ", youtubeUrl: "https://www.youtube.com/watch?v=UFFa0QoHWvE"),
-        Song(animeId: 2, genre: "Rock", length: Int(2.25), title: "Blue Bird", type: " ", youtubeUrl: " "),
-        Song(animeId: 3, genre: "Pop", length: Int(1.30), title: "Asterisk", type: " ", youtubeUrl: " ")
+        Song(animeId: 1, genre: ContentView.Genres.Jazz, length: Int(3.31), title: "Tank!", type: " ", youtubeUrl: "https://www.youtube.com/watch?v=UFFa0QoHWvE"),
+        Song(animeId: 2, genre: ContentView.Genres.Rock, length: Int(2.25), title: "Blue Bird", type: " ", youtubeUrl: " "),
+        Song(animeId: 3, genre: ContentView.Genres.Pop, length: Int(1.30), title: "Asterisk", type: " ", youtubeUrl: " ")
     ]
 }
  

@@ -11,8 +11,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var searchText = ""
-//    @State var genres = ["Rock", "Jazz", "Pop"]
-    @State var filterCategories = ["Length", "Type", "Date Uploaded", "Clear"]
+    @State var selectedGenres = Set<Genres>()
     @State private var selectedFilter = " "
     @State var toggleOn = false
     @State var sheetShowing = false
@@ -28,7 +27,7 @@ struct ContentView: View {
         songs.filter { $0.title.localizedCaseInsensitiveContains(searchText) && $0.title.lowercased().hasPrefix(searchText.lowercased()) }
     }
     
-    enum genres {
+    enum Genres: String, CaseIterable {
         case Rock
         case Jazz
         case Pop
@@ -55,14 +54,14 @@ struct ContentView: View {
                     })
                     .sheet(isPresented: $sheetShowing) {
                         VStack {
-                            ForEach(genres, id: \.self) {genre in
+                            ForEach(Genres.allCases, id: \.self) {genre in
                                 Toggle (isOn: Binding(
-                                    get: {Text(genre.rawValue)},
+                                    get: {self.selectedGenres.contains(genre)},
                                     set: { newToggleState in
                                         if newToggleState {
-                                        selectedFilter = genre
+                                            selectedGenres.remove(genre)
                                     } else {
-                                        selectedFilter = " "
+                                        selectedGenres.insert(genre)
                                     }}
                                 )) {Text(genre.rawValue)}
                             }
@@ -70,7 +69,7 @@ struct ContentView: View {
                         }
                     }
                     
-                    
+                        
                     
                     
                     
