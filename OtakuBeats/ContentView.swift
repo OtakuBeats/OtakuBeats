@@ -24,7 +24,11 @@ struct ContentView: View {
     }
     
     var filteredSongs: [Song] {
-        songs.filter { $0.title.localizedCaseInsensitiveContains(searchText) && $0.title.lowercased().hasPrefix(searchText.lowercased()) }
+        if (selectedGenres.isEmpty) {
+            return songs
+        } else {
+            return songs.filter{(selectedGenres.contains($0.genre))}
+        }
     }
     
     enum Genres: String, CaseIterable {
@@ -38,11 +42,12 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 SearchBar(searchText: $searchText)
-                if selectedFilter == " " {
-                    defaultSearch
-                } else {
-                    //filtered search
-                    Text("hello ") }
+                List {
+                    ForEach(filteredSongs) { song in
+                        /*@START_MENU_TOKEN@*/Text(song.title)/*@END_MENU_TOKEN@*/
+                    }
+                }
+                .listStyle(.plain)
             }
             .navigationTitle("Otaku Beats")
             .toolbar {
@@ -59,66 +64,24 @@ struct ContentView: View {
                                     get: {self.selectedGenres.contains(genre)},
                                     set: { newToggleState in
                                         if newToggleState {
-                                            selectedGenres.remove(genre)
+                                            selectedGenres.insert(genre)
                                     } else {
-                                        selectedGenres.insert(genre)
+                                        selectedGenres.remove(genre)
                                     }}
                                 )) {Text(genre.rawValue)}
                             }
                             .padding(.horizontal)
+                            
+                            Button("Apply") {
+                                sheetShowing.toggle()
+                            }
                         }
                     }
-                    
-                        
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-//                    Menu {
-//                        Menu {
-//                            Picker("Filter", selection: $selectedFilter)
-//                                {
-//                                    ForEach(genres, id: \.self) {
-//                                        Text($0)
-//                                    }
-//                                }
-//                                .pickerStyle(.automatic)
-//                             } label: {
-//                                 Text("Genre")
-//                             }
-//
-//
-//
-//                    Picker("Filter", selection: $selectedFilter)
-//                        {
-//                            ForEach(filterCategories, id: \.self) {
-//                                Text($0)
-//                            }
-//                        }
-//                        .pickerStyle(.automatic)
-//                        .onChange(of: selectedFilter) { value in
-//                            if value == "Clear" {
-//                                selectedFilter = " "
-//                            }
-//
-//                        }
-//                } label: {
-//                    Text("Filter")
-//                }
             }
         }
     }
         .padding()
-    }
+}
     
     
     var defaultSearch: some View {
@@ -126,8 +89,7 @@ struct ContentView: View {
             return AnyView(
             List(songs) { song in
                 Text(song.title)
-            }
-            )
+            }.scrollContentBackground(.hidden))
         } else {
             return AnyView (
             List {
@@ -141,38 +103,6 @@ struct ContentView: View {
             })
         }
     }
-    
-    
-//    var genreSearch: some View {
-//        return AnyView (
-//            List {
-//                switch selectedFilter {
-//                case "Rock": ForEach(filteredSongs) { song in
-//                    if selectedFilter == "Rock" && song.genre == "Rock" {
-//                        Text(song.title)
-//                    }
-//                }
-//
-//                case "Jazz": ForEach(filteredSongs) { song in
-//                    if selectedFilter == "Jazz" && song.genre == "Jazz" {
-//                        Text(song.title)
-//                    }
-//                }
-//
-//                case "Pop": ForEach(filteredSongs) { song in
-//                    if selectedFilter == "Pop" && song.genre == "Pop" {
-//                        Text(song.title)
-//                    }
-//                }
-//
-//                default: Text("error")
-//                    }
-//            })
-//    }
-    
-    
-    
-    
 }
 
 
