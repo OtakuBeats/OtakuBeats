@@ -43,8 +43,10 @@ struct ContentView: View {
             VStack {
                 if let selectedAnime = selectedAnime {
                     List {
-                        ForEach(filteredSongs, id: \.id) { song in
-                            Text(song.title)
+                        ForEach(filteredAnime, id: \.id) { anime in
+                            NavigationLink(destination: songListView(anime:anime, songs: filteredSongs)) {
+                                Text(anime.title)
+                            }
                         }
                     }
                     .searchable(text: $searchText)
@@ -164,6 +166,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            
             
     }
 }
