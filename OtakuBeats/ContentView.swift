@@ -26,10 +26,21 @@ struct ContentView: View {
     
     var filteredSongs: [Song] {
         songs.filter { song in
-            (selectedGenres.isEmpty || selectedGenres.contains(song.genre)) &&
-            (selectedAnime == nil || song.animeTitle == selectedAnime?.title)
+            var shouldIncludeSong = true
+            
+            switch (selectedAnime, searchText.isEmpty) {
+            case (let anime?, _):
+                shouldIncludeSong = song.animeTitle == anime.title
+            case (nil, false):
+                shouldIncludeSong = song.title.localizedCaseInsensitiveContains(searchText)
+            default:
+                break
+            }
+            
+            return shouldIncludeSong && (selectedGenres.isEmpty || selectedGenres.contains(song.genre))
         }
     }
+
     
     enum Genres: String, CaseIterable {
         case Rock
@@ -65,6 +76,9 @@ struct ContentView: View {
                     .listStyle(.plain)
                 }
             }
+            .onAppear {
+                selectedAnime = nil
+            }
             .navigationTitle("Otaku Beats")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -95,6 +109,12 @@ struct ContentView: View {
                     sheetShowing.toggle()
                 }
             }
+        }
+        .onChange(of: searchText) { newSearchText in
+            if newSearchText.isEmpty {
+                selectedAnime = nil
+            }
+            
         }
         .padding()
     }
